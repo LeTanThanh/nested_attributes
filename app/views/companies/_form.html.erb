@@ -12,9 +12,24 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
+    <%= form.label :name, "Company Name" %>
     <%= form.text_field :name %>
   </div>
+
+  <%= form.fields_for :director do |form_director| %>
+    <div class="field">
+      <%= form_director.label :name, "Director Name" %>
+      <%= form_director.text_field :name %>
+    </div>
+
+    <% if form_director.object.persisted? %>
+      <%= form_director.hidden_field :id %>
+      <div class="field">
+        <%= form_director.label :_destroy, "Destroy" %>
+        <%= form_director.radio_button :_destroy, true, checked: false %>
+      </div>
+    <% end %>
+  <% end %>
 
   <div class="actions">
     <%= form.submit %>
