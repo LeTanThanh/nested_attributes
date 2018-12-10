@@ -16,11 +16,17 @@ class CompaniesController < ApplicationController
   def new
     @company = Company.new
     @company.director = Director.new
+    3.times do
+      @company.products.build
+    end
   end
 
   # GET /companies/1/edit
   def edit
     Director.new company: @company  unless @company.director
+    (3 - @company.products.count).times do
+      @company.products.build
+    end
   end
 
   # POST /companies
@@ -71,6 +77,6 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:name, director_attributes: [:id, :name, :_destroy])
+      params.require(:company).permit(:name, director_attributes: [:id, :name, :_destroy], products_attributes: [:id, :name, :_destroy])
     end
 end

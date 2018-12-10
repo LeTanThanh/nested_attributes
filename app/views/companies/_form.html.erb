@@ -31,6 +31,21 @@
     <% end %>
   <% end %>
 
+  <%= form.fields_for :products do |form_product| %>
+    <div class="field">
+      <%= form_product.label :name, "Product Name" %>
+      <%= form_product.text_field :name %>
+    </div>
+
+    <% if form_product.object.persisted? %>
+      <%= form_product.hidden_field :id %>
+      <div class="field">
+        <%= form_product.label :_destroy, "Destroy" %>
+        <%= form_product.radio_button :_destroy, true, checked: false %>
+      </div>
+    <% end %>
+<% end %>
+
   <div class="actions">
     <%= form.submit %>
   </div>
