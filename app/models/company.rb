@@ -1,5 +1,6 @@
 class Company < ApplicationRecord
   has_one :director, dependent: :destroy
+  has_many :companies, dependent: :destroy
 
   accepts_nested_attributes_for :director,
     update_only: true,
