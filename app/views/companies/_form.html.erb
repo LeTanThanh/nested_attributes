@@ -1,52 +1,77 @@
-<%= form_for(@company) do |form| %>
-  <% if company.errors.any? %>
+<%= form_for @company, html: {class: "form-horizontal"} do |form| %>
+  <% if @company.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(company.errors.count, "error") %> prohibited this company from being saved:</h2>
+      <h2><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</h2>
 
       <ul>
-      <% company.errors.full_messages.each do |message| %>
+      <% @company.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name, "Company Name" %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, "Company Name", class: "control-label col-sm-2" %>
+
+    <div class="col-sm-10">
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
   </div>
 
   <%= form.fields_for :director do |form_director| %>
-    <div class="field">
-      <%= form_director.label :name, "Director Name" %>
-      <%= form_director.text_field :name %>
+    <div class="form-group">
+      <%= form_director.label :name, "Director Name", class: "control-label col-sm-2" %>
+
+      <div class="col-sm-10">
+        <%= form_director.text_field :name, class: "form-control" %>
+      </div>
     </div>
 
     <% if form_director.object.persisted? %>
       <%= form_director.hidden_field :id %>
-      <div class="field">
-        <%= form_director.label :_destroy, "Destroy" %>
-        <%= form_director.radio_button :_destroy, true, checked: false %>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="radio">
+            <%= form_director.label :name do %>
+              <%= form_director.radio_button :_destroy, true, checked: false %>
+              Destroy
+            <% end %>
+          </div>
+        </div>
       </div>
     <% end %>
   <% end %>
 
   <%= form.fields_for :products do |form_product| %>
-    <div class="field">
-      <%= form_product.label :name, "Product Name" %>
-      <%= form_product.text_field :name %>
+    <div class="form-group field">
+      <%= form_product.label :name, "Product Name", class: "control-label col-sm-2" %>
+
+      <div class="col-sm-10">
+        <%= form_product.text_field :name, class: "form-control" %>
+      </div>
     </div>
 
     <% if form_product.object.persisted? %>
       <%= form_product.hidden_field :id %>
-      <div class="field">
-        <%= form_product.label :_destroy, "Destroy" %>
-        <%= form_product.radio_button :_destroy, true, checked: false %>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="radio">
+            <%= form_product.label :name do %>
+              <%= form_product.radio_button :_destroy, true, checked: false %>
+              Destroy
+            <% end %>
+          </div>
+        </div>
       </div>
     <% end %>
-<% end %>
+  <% end %>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group actions">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= form.submit class: "btn btn-#{@company.persisted? ? "warning" : "success"}" %>
+    </div>
   </div>
 <% end %>
